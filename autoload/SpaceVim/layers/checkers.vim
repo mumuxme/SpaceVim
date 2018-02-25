@@ -28,7 +28,7 @@ function! SpaceVim#layers#checkers#plugins() abort
   return plugins
 endfunction
 
-if has('timers')
+if g:spacevim_show_cursor_error && has('timers')
   let s:show_cursor_error = 1
 else
   let s:show_cursor_error = 0
@@ -49,7 +49,6 @@ function! SpaceVim#layers#checkers#get_options() abort
   return ['show_cursor_error']
 
 endfunction
-
 
 function! SpaceVim#layers#checkers#config() abort
   "" neomake/neomake {{{
