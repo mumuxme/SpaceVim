@@ -1,15 +1,8 @@
-"=============================================================================
-" checkers.vim --- SpaceVim checkers layer
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
 ""
 " @section checkers, layer-checkers
 " @parentsection layers
 " SpaceVim uses neomake as default syntax checker.
+""
 
 let s:SIG = SpaceVim#api#import('vim#signatures')
 let s:STRING = SpaceVim#api#import('data#string')
@@ -28,38 +21,38 @@ function! SpaceVim#layers#checkers#plugins() abort
   return plugins
 endfunction
 
-if has('timers')
-  let s:show_cursor_error = 1
-else
-  let s:show_cursor_error = 0
-endif
+"if g:spacevim_show_cursor_error && has('timers')
+"  let s:show_cursor_error = 1
+"else
+"  let s:show_cursor_error = 0
+"endif
+let s:show_cursor_error = 0
 
-function! SpaceVim#layers#checkers#set_variable(var) abort
+"function! SpaceVim#layers#checkers#set_variable(var) abort
+"
+"  let s:show_cursor_error = get(a:var, 'show_cursor_error', 1)
+"
+"  if s:show_cursor_error && !has('timers')
+"    call SpaceVim#logger#warn('show_cursor_error in checkers layer needs timers feature')
+"    let s:show_cursor_error = 0
+"  endif
+"endfunction
 
-  let s:show_cursor_error = get(a:var, 'show_cursor_error', 1)
-
-  if s:show_cursor_error && !has('timers')
-    call SpaceVim#logger#warn('show_cursor_error in checkers layer needs timers feature')
-    let s:show_cursor_error = 0
-  endif
-endfunction
-
-function! SpaceVim#layers#checkers#get_options() abort
-
-  return ['show_cursor_error']
-
-endfunction
-
+"function! SpaceVim#layers#checkers#get_options() abort
+"
+"  return ['show_cursor_error']
+"
+"endfunction
 
 function! SpaceVim#layers#checkers#config() abort
   "" neomake/neomake {{{
   " This setting will echo the error for the line your cursor is on, if any.
-  let g:neomake_echo_current_error = get(g:, 'neomake_echo_current_error', !s:show_cursor_error)
-  let g:neomake_cursormoved_delay = get(g:, 'neomake_cursormoved_delay', 300)
+  "let g:neomake_echo_current_error = get(g:, 'neomake_echo_current_error', !s:show_cursor_error)
+  "let g:neomake_cursormoved_delay = get(g:, 'neomake_cursormoved_delay', 300)
   "" }}}
 
   "" w0rp/ale {{{
-  let g:ale_echo_delay = get(g:, 'ale_echo_delay', 300)
+  "let g:ale_echo_delay = get(g:, 'ale_echo_delay', 300)
   "" }}}
 
   call SpaceVim#mapping#space#def('nnoremap', ['e', 'c'], 'call call('
@@ -91,33 +84,33 @@ function! SpaceVim#layers#checkers#config() abort
   call SpaceVim#mapping#space#def('nnoremap', ['t', 's'], 'call call('
         \ . string(s:_function('s:toggle_syntax_checker')) . ', [])',
         \ 'toggle syntax checker', 1)
-  augroup SpaceVim_layer_checker
-    autocmd!
-    if g:spacevim_enable_neomake
-      if SpaceVim#layers#isLoaded('core#statusline')
-        autocmd User NeomakeFinished nested
-              \ let &l:statusline = SpaceVim#layers#core#statusline#get(1)
-      endif
-      if s:show_cursor_error
-        " when move cursor, the error message will be shown below current line
-        " after a delay
-        autocmd CursorMoved * call <SID>neomake_cursor_move_delay()
+  "augroup SpaceVim_layer_checker
+  "  autocmd!
+  "  if g:spacevim_enable_neomake
+  "    if SpaceVim#layers#isLoaded('core#statusline')
+  "      autocmd User NeomakeFinished nested
+  "            \ let &l:statusline = SpaceVim#layers#core#statusline#get(1)
+  "    endif
+  "    if s:show_cursor_error
+  "      " when move cursor, the error message will be shown below current line
+  "      " after a delay
+  "      autocmd CursorMoved * call <SID>neomake_cursor_move_delay()
 
-        " when switch to Insert mode, stop timer and clear the signature
-        if exists('##CmdLineEnter')
-          autocmd InsertEnter,WinLeave,CmdLineEnter *
-                \ call <SID>neomake_signatures_clear()
-          autocmd CmdLineEnter *
-                \ call <SID>neomake_signatures_clear() | redraw
-        else
-          autocmd InsertEnter,WinLeave * call <SID>neomake_signatures_clear()
-        endif
-      endif
-    elseif g:spacevim_enable_ale && SpaceVim#layers#isLoaded('core#statusline')
-      autocmd User ALELint 
-            \ let &l:statusline = SpaceVim#layers#core#statusline#get(1)
-    endif
-  augroup END
+  "      " when switch to Insert mode, stop timer and clear the signature
+  "      if exists('##CmdLineEnter')
+  "        autocmd InsertEnter,WinLeave,CmdLineEnter *
+  "              \ call <SID>neomake_signatures_clear()
+  "        autocmd CmdLineEnter *
+  "              \ call <SID>neomake_signatures_clear() | redraw
+  "      else
+  "        autocmd InsertEnter,WinLeave * call <SID>neomake_signatures_clear()
+  "      endif
+  "    endif
+  "  elseif g:spacevim_enable_ale && SpaceVim#layers#isLoaded('core#statusline')
+  "    autocmd User ALELint 
+  "          \ let &l:statusline = SpaceVim#layers#core#statusline#get(1)
+  "  endif
+  "augroup END
 endfunction
 
 function! s:neomake_cursor_move_delay() abort
