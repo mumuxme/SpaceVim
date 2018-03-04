@@ -1,11 +1,3 @@
-"=============================================================================
-" manager.vim --- plugin manager for SpaceVim
-" Copyright (c) 2016-2017 Shidong Wang & Contributors
-" Author: Shidong Wang < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: MIT license
-"=============================================================================
-
 " Load SpaceVim api
 let s:VIM_CO = SpaceVim#api#import('vim#compatible')
 let s:JOB = SpaceVim#api#import('job')
@@ -204,10 +196,6 @@ function! SpaceVim#plugins#manager#update(...) abort
   elseif g:spacevim_plugin_manager ==# 'neobundle'
     let s:plugins = a:0 == 0 ? sort(map(neobundle#config#get_neobundles(), 'v:val.name')) : sort(copy(a:1))
   elseif g:spacevim_plugin_manager ==# 'vim-plug'
-  endif
-  " make dein-ui only update SpaceVim for SpaceVim users
-  if a:0 == 0 && exists('g:spacevim_version')
-    call add(s:plugins, 'SpaceVim')
   endif
   let s:total = len(s:plugins)
   call s:set_buf_line(s:plugin_manager_buffer, 1, 'Updating plugins (' . s:pct_done . '/' . s:total . ')')

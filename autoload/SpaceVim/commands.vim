@@ -1,10 +1,6 @@
-"=============================================================================
-" commands.vim --- commands in SpaceVim
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
+"=======================================
+" commands in SpaceVim
+"=======================================
 
 function! SpaceVim#commands#load() abort
   ""
@@ -38,8 +34,8 @@ function! SpaceVim#commands#load() abort
         \ -complete=customlist,SpaceVim#commands#complete_SPConfig
         \ SPConfig call SpaceVim#commands#config(<f-args>)
   ""
-  " Command for update plugin, support completion of plugin name. If run
-  " without argv, All the plugin will be updated.
+  " Command for update plugin, support completion of plugin name. If you run
+  " with empty argument, all the plugin will be updated (without SpaceVim).
   " >
   "     :SPUpdate vim-airline
   " <
@@ -64,7 +60,7 @@ endfunction
 " @vimlint(EVL103, 1, a:CursorPos)
 function! SpaceVim#commands#complete_plugin(ArgLead, CmdLine, CursorPos) abort
   if g:spacevim_plugin_manager ==# 'dein'
-    return join(keys(dein#get()) + ['SpaceVim'], "\n")
+    return join(keys(dein#get()), "\n")
   elseif g:spacevim_plugin_manager ==# 'neobundle'
     return join(map(neobundle#config#get_neobundles(), 'v:val.name'), "\n")
   endif
