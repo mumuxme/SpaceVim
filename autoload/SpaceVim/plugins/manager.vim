@@ -200,7 +200,7 @@ function! SpaceVim#plugins#manager#update(...) abort
     unlet s:recache_done
   endif
   if g:spacevim_plugin_manager ==# 'dein'
-    let s:plugins = a:0 == 0 ? sort(keys(dein#get())) : sort(copy(a:1))
+    let s:plugins = a:0 == 0 || a:1 ==# ['Plugins'] ? sort(keys(dein#get())) : sort(copy(a:1))
   elseif g:spacevim_plugin_manager ==# 'neobundle'
     let s:plugins = a:0 == 0 ? sort(map(neobundle#config#get_neobundles(), 'v:val.name')) : sort(copy(a:1))
   elseif g:spacevim_plugin_manager ==# 'vim-plug'
