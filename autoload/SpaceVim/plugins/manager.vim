@@ -188,7 +188,7 @@ function! SpaceVim#plugins#manager#update(...) abort
     if exists('s:recache_done')
         unlet s:recache_done
     endif
-    let s:plugins = a:0 == 0 ? sort(keys(dein#get())) : sort(copy(a:1))
+    let s:plugins = a:0 == 0 || a:1 ==# ['Plugins'] ? sort(keys(dein#get())) : sort(copy(a:1))
     if a:0 == 0
         call add(s:plugins, 'SpaceVim')
     endif
