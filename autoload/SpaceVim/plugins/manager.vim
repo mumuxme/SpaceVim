@@ -601,7 +601,7 @@ function! s:resume_window() abort
   setf SpaceVimPlugManager
   nnoremap <silent> <buffer> q :bd<CR>
   call setline(1, s:plugin_manager_buffer_lines)
-  setlocal nomodifiable 
+  setlocal nomodifiable
 endfunction
 
 " change modifiable before setline

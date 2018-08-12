@@ -1,10 +1,5 @@
-"=============================================================================
-" main.vim --- Main file of SpaceVim
-" Copyright (c) 2016-2017 Shidong Wang & Contributors
-" Author: Shidong Wang < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
+""
+" Main file of SpaceVim
 
 " Enable nocompatible
 if has('vim_starting')
@@ -22,11 +17,13 @@ if has('vim_starting')
     let g:python3_host_prog = $PYTHON3_HOST_PROG
   endif
 endif
+
 " Detect root directory of SpaceVim
 let g:_spacevim_root_dir = fnamemodify(expand('<sfile>'),
       \ ':p:h:gs?\\?'.((has('win16') || has('win32')
       \ || has('win64'))?'\':'/') . '?')
 lockvar g:_spacevim_root_dir
+
 try
   call SpaceVim#begin()
 catch
@@ -38,4 +35,3 @@ endtry
 call SpaceVim#custom#load()
 
 call SpaceVim#end()
-" vim:set et sw=2 cc=80:

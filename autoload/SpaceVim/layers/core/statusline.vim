@@ -1,21 +1,8 @@
-"=============================================================================
-" statusline.vim --- SpaceVim statusline
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
 ""
 " @section core#statusline, layer-core-statusline
 " @parentsection layers
 " This layer provides default statusline for SpaceVim
 " If you want to use airline's statusline, just disable this layer
-" >
-"   [[layers]]
-"     name = "core#statusline"
-"     enable = false
-" <
 
 scriptencoding utf-8
 let g:_spacevim_statusline_loaded = 1
