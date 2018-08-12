@@ -1,12 +1,8 @@
 "=============================================================================
 " plugins.vim --- plugin wrapper
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
 "=============================================================================
-
 scriptencoding utf-8
+
 function! SpaceVim#plugins#load() abort
   if zvim#plug#enable_plug()
     call zvim#plug#begin(g:spacevim_plugin_bundle_dir)
@@ -15,8 +11,8 @@ function! SpaceVim#plugins#load() abort
     call s:disable_plugins(g:spacevim_disabled_plugins)
     call zvim#plug#end()
   endif
-
 endfunction
+
 function! s:load_plugins() abort
   for group in SpaceVim#layers#get()
     let g:_spacevim_plugin_layer = group
@@ -46,12 +42,11 @@ function! s:load_plugins() abort
 endfunction
 
 function! s:getLayerPlugins(layer) abort
-  let p = []
   try
-    let p = SpaceVim#layers#{a:layer}#plugins()
+    return SpaceVim#layers#{a:layer}#plugins()
   catch /^Vim\%((\a\+)\)\=:E117/
   endtry
-  return p
+  return []
 endfunction
 
 function! s:loadLayerConfig(layer) abort
@@ -59,7 +54,6 @@ function! s:loadLayerConfig(layer) abort
     call SpaceVim#layers#{a:layer}#config()
   catch /^Vim\%((\a\+)\)\=:E117/
   endtry
-
 endfunction
 
 function! s:disable_plugins(plugin_list) abort

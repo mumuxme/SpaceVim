@@ -26,14 +26,14 @@ function! SpaceVim#layers#load(layer, ...) abort
   if index(s:enabled_layers, a:layer) == -1
     call add(s:enabled_layers, a:layer)
   endif
-  if a:0 == 1 && type(a:1) == 4
+  if a:0 == 1 && type(a:1) == 4  " Dictionary
     try
       call SpaceVim#layers#{a:layer}#set_variable(a:1)
       let s:layers_vars[a:layer] = a:1
     catch /^Vim\%((\a\+)\)\=:E117/
     endtry
   endif
-  if a:0 > 0 && type(a:1) == 1 
+  if a:0 > 0 && type(a:1) == 1  " String
     for l in a:000
       call SpaceVim#layers#load(l)
     endfor

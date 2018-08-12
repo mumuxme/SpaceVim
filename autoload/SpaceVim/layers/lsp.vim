@@ -46,14 +46,14 @@ function! SpaceVim#layers#lsp#config() abort
     let g:LanguageClient_diagnosticsDisplay[1].signTexthl = 'NeomakeErrorSign'
 
     let g:LanguageClient_diagnosticsDisplay[2].texthl = 'NeomakeWarning'
-    let g:LanguageClient_diagnosticsDisplay[2].signTexthl = 
+    let g:LanguageClient_diagnosticsDisplay[2].signTexthl =
           \ 'NeomakeWarningSign'
 
     let g:LanguageClient_diagnosticsDisplay[3].texthl = 'NeomakeInfo'
     let g:LanguageClient_diagnosticsDisplay[3].signTexthl = 'NeomakeInfoSign'
 
     let g:LanguageClient_diagnosticsDisplay[4].texthl = 'NeomakeMessage'
-    let g:LanguageClient_diagnosticsDisplay[4].signTexthl = 
+    let g:LanguageClient_diagnosticsDisplay[4].signTexthl =
           \ 'NeomakeMessageSign'
   elseif g:spacevim_enable_ale
     let g:LanguageClient_diagnosticsDisplay[1].texthl = 'ALEError'

@@ -1,23 +1,11 @@
-"=============================================================================
-" tabline.vim --- SpaceVim tabline
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
 ""
-" @section core#tabline, layer-core-tabline
+" @section core#tabline
 " @parentsection layers
 " This layer provides default tabline for SpaceVim
 " If you want to use airline's tabline, just disable this layer
-" >
-"   [[layers]]
-"     name = "core#tabline"
-"     enable = false
-" <
 
 scriptencoding utf-8
+
 let s:messletters = SpaceVim#api#import('messletters')
 let s:file = SpaceVim#api#import('file')
 let s:BUFFER = SpaceVim#api#import('vim#buffer')
