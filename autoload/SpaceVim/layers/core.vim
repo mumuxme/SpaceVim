@@ -145,7 +145,8 @@ function! SpaceVim#layers#core#config() abort
   call SpaceVim#mapping#space#def('nnoremap', ['b', 'e'], 'call call('
         \ . string(s:_function('s:safe_erase_buffer')) . ', [])',
         \ 'safe-erase-buffer', 1)
-  call SpaceVim#mapping#space#def('nnoremap', ['b', 'h'], 'Startify', 'home', 1)
+  call SpaceVim#mapping#space#def('nnoremap', ['b', 'h'], 'setlocal nobuflisted', 'hide current buffer', 1)
+  call SpaceVim#mapping#space#def('nnoremap', ['b', 'H'], 'Startify', 'home', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['b', 'm'], 'call call('
         \ . string(s:_function('s:open_message_buffer')) . ', [])',
         \ 'open-message-buffer', 1)
