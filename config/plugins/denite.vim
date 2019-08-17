@@ -31,18 +31,17 @@ call denite#custom#var(
       \ 'buffer',
       \ 'date_format', '%m-%d-%Y %H:%M:%S')
 
-" denite command
+" change file/rec command
 if !s:sys.isWindows
   if executable('rg')
     " For ripgrep
     " Note: It is slower than ag
-    call denite#custom#var('file_rec', 'command',
+    call denite#custom#var('file/rec', 'command',
           \ ['rg', '--hidden', '--files', '--glob', '!.git', '--glob', '']
           \ + zvim#util#Generate_ignore(g:spacevim_wildignore, 'rg')
           \ )
   elseif executable('ag')
-    " Change file_rec command.
-    call denite#custom#var('file_rec', 'command',
+    call denite#custom#var('file/rec', 'command',
           \ ['ag' , '--nocolor', '--nogroup', '-g', '']
           \ + zvim#util#Generate_ignore(g:spacevim_wildignore, 'ag')
           \ )
@@ -51,14 +50,14 @@ else
   if executable('pt')
     " For Pt(the platinum searcher)
     " NOTE: It also supports windows.
-    call denite#custom#var('file_rec', 'command',
+    call denite#custom#var('file/rec', 'command',
           \ ['pt', '--follow', '--nocolor', '-g=', '.'])
   endif
 endif
 
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
+call denite#custom#var('file/rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
 
 " FIND and GREP COMMANDS
 if executable('rg')

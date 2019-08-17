@@ -1,10 +1,6 @@
-"=============================================================================
-" denite.vim --- SpaceVim denite layer
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
+" denite layer
+"
+" NOTE: currently only version 2.1 of denite is supported.
 
 function! SpaceVim#layers#denite#plugins() abort
   let plugins = [
@@ -132,8 +128,8 @@ function! SpaceVim#layers#denite#config() abort
         \ ]
         \ ],
         \ 1)
-  nnoremap <silent> <C-p> :call <SID>warp_denite('Denite file_rec')<cr>
 
+  nnoremap <silent> <C-p> :call <SID>warp_denite('Denite file/rec')<cr>
 
   let lnum = expand('<slnum>') + s:lnum - 1
   call SpaceVim#mapping#space#def('nnoremap', ['h', 'i'], 'call call('
