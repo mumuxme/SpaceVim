@@ -31,9 +31,6 @@
   name = "colorscheme"
 
 [[layers]]
-  name = "core#banner"
-
-[[layers]]
   name = "core#statusline"
 
 [[layers]]

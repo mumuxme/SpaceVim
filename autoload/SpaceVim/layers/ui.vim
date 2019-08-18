@@ -14,7 +14,6 @@ function! SpaceVim#layers#ui#plugins() abort
         \ ['tenfyzhong/tagbar-makefile.vim', {'merged': 0}],
         \ ['tenfyzhong/tagbar-proto.vim', {'merged': 0}],
         \ ['t9md/vim-choosewin', {'merged' : 0}],
-        \ ['mhinz/vim-startify', {'loadconf' : 1, 'merged' : 0}],
         \ ]
   if !SpaceVim#layers#isLoaded('core#statusline')
     call add(plugins, ['vim-airline/vim-airline',                { 'merged' : 0, 
