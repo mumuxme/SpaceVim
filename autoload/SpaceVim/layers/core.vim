@@ -1,11 +1,3 @@
-"=============================================================================
-" core.vim --- SpaceVim core layer
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
 let s:SYS = SpaceVim#api#import('system')
 
 function! SpaceVim#layers#core#plugins() abort
@@ -146,7 +138,6 @@ function! SpaceVim#layers#core#config() abort
         \ . string(s:_function('s:safe_erase_buffer')) . ', [])',
         \ 'safe-erase-buffer', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['b', 'h'], 'setlocal nobuflisted', 'hide current buffer', 1)
-  call SpaceVim#mapping#space#def('nnoremap', ['b', 'H'], 'Startify', 'home', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['b', 'm'], 'call call('
         \ . string(s:_function('s:open_message_buffer')) . ', [])',
         \ 'open-message-buffer', 1)

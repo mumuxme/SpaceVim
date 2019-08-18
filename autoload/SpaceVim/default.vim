@@ -138,8 +138,8 @@ function! SpaceVim#default#layers() abort
   call SpaceVim#layers#load('format')
   call SpaceVim#layers#load('edit')
   call SpaceVim#layers#load('ui')
+  call SpaceVim#layers#load('ui#startify')
   call SpaceVim#layers#load('core')
-  call SpaceVim#layers#load('core#banner')
   call SpaceVim#layers#load('core#statusline')
   call SpaceVim#layers#load('core#tabline')
 endfunction
