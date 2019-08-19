@@ -46,6 +46,11 @@ scriptencoding utf-8
 let g:spacevim_version = '1.0.0'
 lockvar g:spacevim_version
 
+" --------------------------------------------
+" TODO
+let g:spacevim_show_cursor_error = 0
+" --------------------------------------------
+
 ""
 " @section default_indent, options-default_indent
 " @parentsection options
@@ -539,9 +544,10 @@ let g:spacevim_enable_debug            = 0
 " Auto disable touchpad when switch to insert mode or focuslost in neovim.
 let g:spacevim_auto_disable_touchpad   = 1
 ""
+" TODO
 " Set the debug level of SpaceVim. Default is 1. see
 " |SpaceVim#logger#setLevel()|
-let g:spacevim_debug_level             = 1
+"let g:spacevim_debug_level             = 1
 let g:spacevim_hiddenfileinfo          = 1
 let g:spacevim_gitcommit_pr_icon       = ''
 let g:spacevim_gitcommit_issue_icon    = ''
