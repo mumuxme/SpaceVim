@@ -1,3 +1,6 @@
+" TODO: remove
+" have moved to SpaceVim#api#logging
+
 "=============================================================================
 " logger.vim --- SpaceVim logger API
 " Copyright (c) 2016-2017 Wang Shidong & Contributors

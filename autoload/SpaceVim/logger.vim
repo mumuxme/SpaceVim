@@ -1,53 +1,30 @@
-"=============================================================================
-" logger.vim --- SpaceVim logger
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
-let s:LOGGER = SpaceVim#api#import('logger')
+"""
+" logger for SpaceVim
+""
+let s:LOGGER = SpaceVim#api#import('logging')
 
 call s:LOGGER.set_name('SpaceVim')
-call s:LOGGER.set_level(1)
+call s:LOGGER.set_level("DEBUG")
 call s:LOGGER.set_silent(1)
-call s:LOGGER.set_verbose(1)
 
-function! SpaceVim#logger#info(msg) abort
-
-  call s:LOGGER.info(a:msg)
-
+function! SpaceVim#logger#debug(msg, ...)
+  call call(s:LOGGER.debug, [a:msg] + a:000)
 endfunction
 
-function! SpaceVim#logger#warn(msg, ...) abort
-  let issilent = get(a:000, 0, 1)
-  call s:LOGGER.warn(a:msg, issilent)
+function! SpaceVim#logger#info(msg, ...)
+  call call(s:LOGGER.info, [a:msg] + a:000)
 endfunction
 
+function! SpaceVim#logger#warn(msg, ...)
+  call call(s:LOGGER.warning, [a:msg] + a:000)
+endfunction
 
-function! SpaceVim#logger#error(msg) abort
-
-  call s:LOGGER.error(a:msg)
-
+function! SpaceVim#logger#error(msg, ...)
+  call call(s:LOGGER.error, [a:msg] + a:000)
 endfunction
 
 function! SpaceVim#logger#viewRuntimeLog() abort
-  let info = "### SpaceVim runtime log :\n\n"
-  let info .= "```log\n"
-
-  let info .= s:LOGGER.view(s:LOGGER.level)
-
-  let info .= "\n```\n"
-  tabnew +setl\ nobuflisted
-  nnoremap <buffer><silent> q :bd!<CR>
-  for msg in split(info, "\n")
-    call append(line('$'), msg)
-  endfor
-  normal! "_dd
-  setl nomodifiable
-  setl buftype=nofile
-  setl filetype=markdown
-
+  call SpaceVim#api#logging#pprint(s:LOGGER)
 endfunction
 
 
@@ -94,14 +71,8 @@ endfunction
 
 ""
 " @public
-" Set debug level of SpaceVim. Default is 1.
-"
-"     1 : log all messages
-"
-"     2 : log warning and error messages
-"
-"     3 : log error messages only
-function! SpaceVim#logger#setLevel(level) abort
+" Set debug level of SpaceVim. Default is `DEBUG`.
+function! SpaceVim#logger#setLevel(level)
   call s:LOGGER.set_level(a:level)
 endfunction
 
