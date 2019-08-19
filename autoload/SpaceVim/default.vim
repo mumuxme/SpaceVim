@@ -134,7 +134,17 @@ endfunction
 
 function! SpaceVim#default#layers() abort
   call SpaceVim#layers#load('autocomplete')
-  call SpaceVim#layers#load('checkers')
+  " FIXME:
+  " 1. this should be load after your custom settings(init.vim),
+  " or g:spacevim_show_cursor_error will always be the default value.
+  " However, settings such as `SpaceVim#layers#disable` in your custom
+  " settings should be load after this.
+  " 2. set show_cursor_error as g:spacevim_show_cursor_error,
+  " you will get an error if you run git rebase then reword something.
+  call SpaceVim#layers#load(
+        \ 'checkers',
+        \ {'show_cursor_error': 0},
+        \ )
   call SpaceVim#layers#load('format')
   call SpaceVim#layers#load('edit')
   call SpaceVim#layers#load('ui')
