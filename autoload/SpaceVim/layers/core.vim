@@ -2,14 +2,6 @@ let s:SYS = SpaceVim#api#import('system')
 
 function! SpaceVim#layers#core#plugins() abort
   let plugins = []
-  if g:spacevim_filemanager ==# 'nerdtree'
-    call add(plugins, ['scrooloose/nerdtree', { 'on_cmd' : 'NERDTreeToggle',
-          \ 'loadconf' : 1}])
-  elseif g:spacevim_filemanager ==# 'vimfiler'
-    call add(plugins, ['Shougo/vimfiler.vim',{'merged' : 0, 'loadconf' : 1 , 'loadconf_before' : 1, 'on_cmd' : ['VimFiler', 'VimFilerBufferDir']}])
-    call add(plugins, ['Shougo/unite.vim',{ 'merged' : 0 , 'loadconf' : 1}])
-    call add(plugins, ['Shougo/vimproc.vim', {'build' : [(executable('gmake') ? 'gmake' : 'make')]}])
-  endif
 
   if !g:spacevim_vimcompatible
     call add(plugins, ['rhysd/clever-f.vim', {'merged' : 0}])
@@ -35,10 +27,8 @@ endfunction
 
 let s:filename = expand('<sfile>:~')
 let s:lnum = expand('<slnum>') + 2
+
 function! SpaceVim#layers#core#config() abort
-  if g:spacevim_filemanager ==# 'nerdtree'
-    noremap <silent> <F3> :NERDTreeToggle<CR>
-  endif
   let g:matchup_matchparen_status_offscreen = 0
   " Unimpaired bindings
   " Quickly add empty lines
@@ -164,17 +154,6 @@ function! SpaceVim#layers#core#config() abort
         \ 'delete-current-buffer-file', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['f', 'F'], 'normal! gf', 'open-cursor-file', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['f', '/'], 'call SpaceVim#plugins#find#open()', 'find-files', 1)
-  if g:spacevim_filemanager ==# 'vimfiler'
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 't'], 'VimFiler', 'toggle_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 'T'], 'VimFiler -no-toggle', 'show_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 'o'], 'VimFiler -find', 'open_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['b', 't'], 'VimFilerBufferDir -no-toggle', 'show_file_tree_at_buffer_dir', 1)
-  elseif g:spacevim_filemanager ==# 'nerdtree'
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 't'], 'NERDTreeToggle', 'toggle_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 'T'], 'NERDTree', 'show_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['f', 'o'], 'NERDTreeFind', 'open_file_tree', 1)
-    call SpaceVim#mapping#space#def('nnoremap', ['b', 't'], 'NERDTree %', 'show_file_tree_at_buffer_dir', 1)
-  endif
   call SpaceVim#mapping#space#def('nnoremap', ['f', 'y'], 'call zvim#util#CopyToClipboard()', 'show-and-copy-buffer-filename', 1)
   let g:_spacevim_mappings_space.f.v = {'name' : '+Vim(SpaceVim)'}
   call SpaceVim#mapping#space#def('nnoremap', ['f', 'v', 'v'], 'let @+=g:spacevim_version | echo g:spacevim_version', 'display-and-copy-version', 1)
@@ -257,11 +236,11 @@ endfunction
 
 function! s:number_transient_state(n) abort
   if a:n ==# '+'
-    exe "normal! \<c-a>" 
+    exe "normal! \<c-a>"
   else
-    exe "normal! \<c-x>" 
+    exe "normal! \<c-x>"
   endif
-  let state = SpaceVim#api#import('transient_state') 
+  let state = SpaceVim#api#import('transient_state')
   call state.set_title('Number Transient State')
   call state.defind_keys(
         \ {
@@ -459,7 +438,7 @@ function! s:move_buffer_to_nth_win(nr) abort
 endfunction
 
 function! s:buffer_transient_state() abort
-  let state = SpaceVim#api#import('transient_state') 
+  let state = SpaceVim#api#import('transient_state')
   call state.set_title('Buffer Selection Transient State')
   call state.defind_keys(
         \ {
