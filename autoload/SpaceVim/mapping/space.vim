@@ -49,7 +49,7 @@ function! SpaceVim#mapping#space#init() abort
   let g:_spacevim_mappings_space.w['<Tab>'] = ['wincmd w', 'alternate-window']
   nnoremap <silent> [SPC]w<tab> :wincmd w<cr>
   call SpaceVim#mapping#menu('alternate-window', '[SPC]w<Tab>', 'wincmd w')
-  call SpaceVim#mapping#space#def('nnoremap', ['w', '+'], 
+  call SpaceVim#mapping#space#def('nnoremap', ['w', '+'],
         \ 'call call('
         \ . string(function('s:windows_layout_toggle'))
         \ . ', [])', 'windows-layout-toggle', 1)
@@ -70,7 +70,7 @@ function! SpaceVim#mapping#space#init() abort
         \ 'ChooseWin | close | wincmd w', 'delete window (other windows)', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['w', 'f'],
         \ 'tabnew', 'create new tab', 1)
-  call SpaceVim#mapping#space#def('nnoremap', ['w', 'F'], 
+  call SpaceVim#mapping#space#def('nnoremap', ['w', 'F'],
         \ 'call call('
         \ . string(function('s:create_new_named_tab'))
         \ . ', [])', 'create new named tab', 1)
@@ -183,10 +183,11 @@ function! SpaceVim#mapping#space#init() abort
   " Searching in project
   call SpaceVim#mapping#space#def('nnoremap', ['s', 'p'],
         \ 'call SpaceVim#plugins#flygrep#open(' .
-        \ "{'input' : input(\"grep pattern:\"), 'dir' : get(b:, \"rootDir\", getcwd())})",
+        \ "{'input' : input(\"grep pattern:\"), 'dir' : get(b:, \"rootDir\", getcwd()), 'showdir' : 0})",
         \ 'grep in project', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['s', 'P'],
-        \ "call SpaceVim#plugins#flygrep#open({'input' : expand(\"<cword>\"), 'dir' : get(b:, \"rootDir\", getcwd())})",
+        \ 'call SpaceVim#plugins#flygrep#open(' .
+        \ "{'input' : expand(\"<cword>\"), 'dir' : get(b:, \"rootDir\", getcwd()), 'showdir' : 0})",
         \ 'grep cursor word in project', 1)
   " Searching background
   call SpaceVim#mapping#space#def('nnoremap', ['s', 'j'],
@@ -346,7 +347,7 @@ function! SpaceVim#mapping#space#def(m, keys, cmd, desc, is_cmd, ...) abort
   endif
   let is_visual = a:0 > 0 ? a:1 : 0
   if a:is_cmd
-    let cmd = ':<C-u>' . a:cmd . '<CR>' 
+    let cmd = ':<C-u>' . a:cmd . '<CR>'
     let lcmd = a:cmd
   else
     let cmd = a:cmd
@@ -401,7 +402,7 @@ function! s:windows_layout_toggle() abort
     echohl WarningMsg
     echom "Can't toggle window layout when the number of windows isn't two."
     echohl None
-  else 
+  else
     if winnr() == 1
       let b = winbufnr(2)
     else
@@ -440,7 +441,7 @@ function! SpaceVim#mapping#space#langSPC(m, keys, cmd, desc, is_cmd, ...) abort
   endif
   let is_visual = a:0 > 0 ? a:1 : 0
   if a:is_cmd
-    let cmd = ':<C-u>' . a:cmd . '<CR>' 
+    let cmd = ':<C-u>' . a:cmd . '<CR>'
     let lcmd = a:cmd
   else
     let cmd = a:cmd
@@ -484,7 +485,7 @@ endfunction
 
 function! s:windows_transient_state() abort
 
-  let state = SpaceVim#api#import('transient_state') 
+  let state = SpaceVim#api#import('transient_state')
   call state.set_title('Buffer Selection Transient State')
   call state.defind_keys(
         \ {
