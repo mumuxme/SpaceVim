@@ -65,7 +65,7 @@ function! s:get_search_cmd(expr) abort
   endif
   let cmd += s:grep_expr_opt
   if !empty(s:grep_files) && type(s:grep_files) == 3
-    " grep files is a list, which mean to use flygrep searching in 
+    " grep files is a list, which mean to use flygrep searching in
     " multiple files
     let cmd += [a:expr] + s:grep_files
   elseif !empty(s:grep_files) && type(s:grep_files) == 1
@@ -81,7 +81,7 @@ function! s:get_search_cmd(expr) abort
   else
     " if grep dir is empty, grep files is empty, which means searhing in
     " current directory.
-    let cmd += [a:expr] 
+    let cmd += [a:expr]
     " in window, when using rg, ag, need to add '.' at the end.
     if s:SYS.isWindows && (s:grep_exe == 'rg' || s:grep_exe == 'ag' || s:grep_exe == 'pt' )
       let cmd += ['.']
@@ -127,7 +127,7 @@ function! s:matchadd(group, partten, propty) abort
     catch
       return -1
     endtry
-  catch 
+  catch
     return -1
   endtry
 endfunction
@@ -138,7 +138,7 @@ function! s:flygrep(expr) abort
     redrawstatus
     return
   endif
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -179,7 +179,7 @@ function! s:filter(expr) abort
     redrawstatus
     return
   endif
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -209,7 +209,7 @@ endfunction
 " replace local funcs {{{
 function! s:start_replace() abort
   let s:mode = 'r'
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -259,7 +259,11 @@ endfunction
 " @vimlint(EVL103, 1, a:id)
 " @vimlint(EVL103, 1, a:event)
 function! s:grep_stdout(id, data, event) abort
-  let datas =filter(a:data, '!empty(v:val)')
+  let datas = filter(a:data, '!empty(v:val)')
+  if s:showdir == 0
+    " FIXME: what if s:grep_dir already has a '/' in the end?
+    call map(datas, {key, val -> substitute(val, s:grep_dir . '/', '', '')})
+  endif
   " let datas = s:LIST.uniq_by_func(datas, function('s:file_line'))
   if bufnr('%') == s:flygrep_buffer_id
     " You probably split lines by \n, but Windows ses \r\n, so the \r (displayed via ^M) is still left.
@@ -501,7 +505,7 @@ let s:MPT._function_key = {
       \ }
 
 if has('nvim')
-  call extend(s:MPT._function_key, 
+  call extend(s:MPT._function_key,
         \ {
         \ "\x80\xfdJ" : function('s:previous_item'),
         \ "\x80\xfc \x80\xfdJ" : function('s:previous_item'),
@@ -519,8 +523,9 @@ endif
 " Public API: SpaceVim#plugins#flygrep#open(argv) {{{
 
 " keys:
-" files: files for grep, @buffers means listed buffer.
-" dir: specific a directory for grep
+"   files: files for grep, @buffers means listed buffer.
+"   dir: specific a directory for grep
+"   showdir :: Bool, show dir in search results, default is True.
 function! SpaceVim#plugins#flygrep#open(agrv) abort
   if empty(s:grep_default_exe)
     call SpaceVim#logger#warn(' [flygrep] make sure you have one search tool in your PATH', 1)
@@ -558,6 +563,13 @@ function! SpaceVim#plugins#flygrep#open(agrv) abort
   elseif s:grep_exe == 'findstr' && !empty(s:grep_dir)
     let s:grep_dir = '/D:' . s:grep_dir
   endif
+  " FIXME:
+  " 1. this global variable is just for function s:grep_stdout,
+  " consider sending this to the function, instead of using global variable.
+  " 2: seems this option is useful only in searching project.
+  " currently only [nnoremap, 's', 'p'], [nnoremap, 's', 'P'] will set this
+  " to 0
+  let s:showdir = get(a:agrv, 'showdir', 1)
   let s:grep_opt = get(a:agrv, 'opt', s:grep_default_opt)
   let s:grep_ropt = get(a:agrv, 'ropt', s:grep_default_ropt)
   let s:grep_ignore_case = get(a:agrv, 'ignore_case', s:grep_default_ignore_case)
