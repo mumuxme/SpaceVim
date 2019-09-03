@@ -205,6 +205,7 @@ function! SpaceVim#layers#core#tabline#get() abort
   endif
   return t
 endfunction
+
 function! SpaceVim#layers#core#tabline#config() abort
   let [s:lsep , s:rsep] = get(s:separators, g:spacevim_statusline_separator, s:separators['arrow'])
   let [s:ilsep , s:irsep] = get(s:i_separators, g:spacevim_statusline_inactive_separator, s:separators['arrow'])
@@ -219,10 +220,6 @@ function! SpaceVim#layers#core#tabline#config() abort
           \ . i . ")<cr>', 'Switch to airline tab " . i
           \ . "', '', 'tabline index " . i . "')"
   endfor
-  call SpaceVim#mapping#def('nmap', '<leader>-', ':bprevious<cr>', 'Switch to previous airline tag', '', 'window previous')
-  call SpaceVim#mapping#def('nmap', '<leader>+', ':bnext<cr>', 'Switch to next airline tag', '', 'window next')
-  "call SpaceVim#mapping#space#def('nmap', ['-'], 'bprevious', 'window previous', 1)
-  "call SpaceVim#mapping#space#def('nmap', ['+'], 'bnext', 'window next', 1)
 endfunction
 
 function! SpaceVim#layers#core#tabline#jump(id, ...) abort
