@@ -152,34 +152,15 @@ function! SpaceVim#default#layers() abort
   call SpaceVim#layers#load('core')
   call SpaceVim#layers#load('core#statusline')
   call SpaceVim#layers#load('core#tabline')
+  call SpaceVim#layers#load('mapping#core')
+  call SpaceVim#layers#load('mapping#register')
+  call SpaceVim#layers#load('mapping#buffer')
 endfunction
 
 function! SpaceVim#default#keyBindings() abort
   if g:spacevim_enable_insert_leader
     inoremap <silent> <Leader><Tab> <C-r>=MyLeaderTabfunc()<CR>
   endif
-
-  " yank and paste
-  if has('unnamedplus')
-    xnoremap <Leader>y "+y
-    xnoremap <Leader>d "+d
-    nnoremap <Leader>p "+p
-    let g:_spacevim_mappings.p = ['normal! "+p', 'paste after here']
-    nnoremap <Leader>P "+P
-    let g:_spacevim_mappings.P = ['normal! "+P', 'paste before here']
-    xnoremap <Leader>p "+p
-    xnoremap <Leader>P "+P
-  else
-    xnoremap <Leader>y "*y
-    xnoremap <Leader>d "*d
-    nnoremap <Leader>p "*p
-    let g:_spacevim_mappings.p = ['normal! "*p', 'paste after here']
-    nnoremap <Leader>P "*P
-    let g:_spacevim_mappings.P = ['normal! "*P', 'paste before here']
-    xnoremap <Leader>p "*p
-    xnoremap <Leader>P "*P
-  endif
-
 
   " quickfix list movement
   let g:_spacevim_mappings.q = {'name' : '+Quickfix movement'}
