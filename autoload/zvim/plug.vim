@@ -1,3 +1,6 @@
+" TODO: rm
+" move to plugmanager
+
 let s:save_cpo = &cpo
 set cpo&vim
 function! s:install_manager() abort

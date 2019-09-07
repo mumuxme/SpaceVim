@@ -1,30 +1,56 @@
-"=============================================================================
-" system.vim --- SpaceVim system API
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
-
 ""
-" @section system, api-system
-" @parentsection api
-" name()
-" 
-" Return the name of current os, availibel value is: linux, cygwin, windows
-" and mac.
-
+" api-system
+""
 scriptencoding utf-8
+
+" Information about your system
+"
+" keys:
+"   'isWindows' :: Bool,
+"   'isLinux' :: Bool,
+"   'isOSX' :: Bool,
+"   'isDarwin' :: Bool,
+"   'Fsep' :: String,
+"   'Psep' :: String,
+"   'name' :: String,
+"   'systemicon' :: String,
+"
+" deprecated keys:
+"   'fileformat' :: Function (use 'systemicon' instead)
 let s:system = {}
 
 let s:system['isWindows'] = has('win16') || has('win32') || has('win64')
-
 let s:system['isLinux'] = has('unix') && !has('macunix') && !has('win32unix')
-
 let s:system['isOSX'] = has('macunix')
 
+" for SpaceVim#api#import
+function! SpaceVim#api#system#get() abort
+  return deepcopy(s:system)
+endfunction
 
-" windows, unix, cygwin, mac, linux
+" --------------------------------------
+
+function! s:fsep() abort
+  if s:system.isWindows
+    return '\'
+  else
+    return '/'
+  endif
+endfunction
+
+let s:system['Fsep'] = s:fsep()
+
+
+function! s:psep() abort
+  if s:system.isWindows
+    return ';'
+  else
+    return ':'
+  endif
+endfunction
+
+let s:system['Psep'] = s:psep()
+
 
 function! s:name() abort
   if s:system.isLinux
@@ -41,6 +67,7 @@ function! s:name() abort
 endfunction
 
 let s:system['name'] = s:name()
+
 
 function! s:isDarwin() abort
   if exists('s:is_darwin')
@@ -66,30 +93,25 @@ function! s:isDarwin() abort
   return s:is_darwin
 endfunction
 
-let s:system['isDarwin'] = function('s:isDarwin')
+let s:system['isDarwin'] = s:isDarwin()
 
-function! s:fileformat() abort
-  let fileformat = ''
+
+function! s:systemicon() abort
+  let icon = ''
   if &fileformat ==? 'dos'
-    let fileformat = ''
+    let icon = ''
   elseif &fileformat ==? 'unix'
     if s:isDarwin()
-      let fileformat = ''
+      let icon = ''
     else
-      let fileformat = ''
+      let icon = ''
     endif
   elseif &fileformat ==? 'mac'
-    let fileformat = ''
+    let icon = ''
   endif
 
-  return fileformat
+  return icon
 endfunction
 
-let s:system['fileformat'] = function('s:fileformat')
-
-
-function! SpaceVim#api#system#get() abort
-  return deepcopy(s:system)
-endfunction
-
-" vim:set et sw=2:
+let s:system['systemicon'] = s:systemicon()
+let s:system['fileformat'] = function('s:systemicon')
