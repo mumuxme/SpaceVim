@@ -4,12 +4,20 @@
 scriptencoding utf-8
 
 function! SpaceVim#plugins#load() abort
-  if zvim#plug#enable_plug()
-    call zvim#plug#begin(g:spacevim_plugin_bundle_dir)
-    call zvim#plug#fetch()
+  " TODO: remove
+  "if zvim#plug#enable_plug()
+  "  call zvim#plug#begin(g:spacevim_plugin_bundle_dir)
+  "  call zvim#plug#fetch()
+  "  call s:load_plugins()
+  "  call s:disable_plugins(g:spacevim_disabled_plugins)
+  "  call zvim#plug#end()
+  "endif
+
+  if SpaceVim#core#plugmanager#is_plugmanager_installed()
+    call SpaceVim#core#plugmanager#begin()
     call s:load_plugins()
     call s:disable_plugins(g:spacevim_disabled_plugins)
-    call zvim#plug#end()
+    call SpaceVim#core#plugmanager#end()
   endif
 endfunction
 

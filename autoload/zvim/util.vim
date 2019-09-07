@@ -26,6 +26,8 @@ fu! zvim#util#defineMap(type,key,value,desc,...) abort
   call add(g:unite_source_menu_menus.CustomKeyMaps.command_candidates, [description,cmd])
 
 endf
+
+" TODO: rm, moved to SpaceVim#util#source_rc
 fu! zvim#util#source_rc(file) abort
   if filereadable(g:_spacevim_root_dir. '/' . a:file)
     execute 'source ' . g:_spacevim_root_dir  . '/' . a:file
