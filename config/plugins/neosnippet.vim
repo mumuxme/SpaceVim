@@ -27,6 +27,8 @@ if !exists('g:neosnippet#completed_pairs')
   let g:neosnippet#completed_pairs = {}
 endif
 let g:neosnippet#completed_pairs.java = {'(' : ')'}
+
+" FIXME: remove
 if g:neosnippet#enable_complete_done
   let g:neopairs#enable = 0
 endif
