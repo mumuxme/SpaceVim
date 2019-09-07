@@ -1,3 +1,5 @@
+" TODO: move to utils.vim
+
 "=============================================================================
 " util.vim --- SpaceVim utils
 " Copyright (c) 2016-2017 Wang Shidong & Contributors
@@ -62,5 +64,3 @@ function! SpaceVim#util#haspy3lib(lib)
   endtry
   return 1
 endfunction
-
-" vim:set et sw=2 cc=80:
