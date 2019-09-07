@@ -1,24 +1,21 @@
-"=============================================================================
-" python.vim --- SpaceVim lang#python layer
-" Copyright (c) 2016-2017 Wang Shidong & Contributors
-" Author: Wang Shidong < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
+" --------------------------------------
+" lang#python layer
+"
+" to make this layer work well, you should install jedi.
+" --------------------------------------
 
-""
-" @section lang#python, layer-lang-python
-" @parentsection layers
-" To make this layer work well, you should install jedi.
-" @subsection mappings
-" >
-"   mode            key             function
-" <
+let s:is_enable_lsp = SpaceVim#layers#lsp#check_filetype('python')
+let s:go_to_def = { -> s:is_enable_lsp ? SpaceVim#lsp#go_to_def() : jedi#goto() }
+
 
 function! SpaceVim#layers#lang#python#plugins() abort
-  let plugins = []
-  " python
-  if !SpaceVim#layers#lsp#check_filetype('python')
+  let plugins = [
+        \ ['heavenshell/vim-pydocstring', { 'on_cmd': 'Pydocstring' }],
+        \ ['Vimjas/vim-python-pep8-indent', { 'on_ft': 'python' }],
+        \ ['vim-python/python-syntax', { 'on_ft': 'python' }],
+        \ ]
+
+  if !s:is_enable_lsp
     if has('nvim')
       call add(plugins, ['zchee/deoplete-jedi', { 'on_ft' : 'python'}])
       " in neovim, we can use deoplete-jedi together with jedi-vim,
@@ -28,15 +25,52 @@ function! SpaceVim#layers#lang#python#plugins() abort
     call add(plugins, ['davidhalter/jedi-vim', { 'on_ft' : 'python',
           \ 'if' : has('python') || has('python3')}])
   endif
-  call add(plugins, ['heavenshell/vim-pydocstring',
-        \ { 'on_cmd' : 'Pydocstring'}])
-  call add(plugins, ['Vimjas/vim-python-pep8-indent', 
-        \ { 'on_ft' : 'python'}])
+
   return plugins
 endfunction
 
+
 function! SpaceVim#layers#lang#python#config() abort
-  " heavenshell/vim-pydocstring {{{
+  call s:python_syntax_config()
+  call s:pydocstring_config()
+
+  call SpaceVim#plugins#runner#reg_runner('python',
+        \ {
+        \ 'exe' : function('s:getexe'),
+        \ 'opt' : [],
+        \ })
+  call SpaceVim#mapping#gd#add('python', s:go_to_def)
+  call SpaceVim#mapping#space#regesit_lang_mappings('python', function('s:language_specified_mappings'))
+  if executable('ipython')
+    call SpaceVim#plugins#repl#reg('python', 'ipython --no-term-title')
+  elseif executable('python')
+    call SpaceVim#plugins#repl#reg('python', 'python')
+  endif
+endfunction
+
+" --------------------------------------
+
+function! s:python_syntax_config() abort
+  " https://github.com/vim-python/python-syntax
+  let g:python_version_2 = 0
+  let g:python_highlight_builtin_funcs = 1
+  let g:python_highlight_builtin_objs = 1
+  let g:python_highlight_builtin_types = 1
+  let g:python_highlight_exceptions = 1
+  let g:python_highlight_string_formatting = 1
+  let g:python_highlight_string_format = 1
+  let g:python_highlight_string_templates = 1
+  let g:python_highlight_indent_errors = 0
+  let g:python_highlight_space_errors = 0
+  let g:python_highlight_doctests = 1
+  let g:python_highlight_class_vars = 1
+  let g:python_highlight_operators = 0
+  let g:python_highlight_file_headers_as_comments = 0
+endfunction
+
+
+function! s:pydocstring_config() abort
+  " heavenshell/vim-pydocstring
 
   " If you execute :Pydocstring at no `def`, `class` line.
   " g:pydocstring_enable_comment enable to put comment.txt value.
@@ -47,27 +81,8 @@ function! SpaceVim#layers#lang#python#config() abort
   " Note: this value is overridden if you explicitly create a
   " mapping in your vimrc, such as if you do:
   let g:pydocstring_enable_mapping = 0
-
-  " }}}
-
-  call SpaceVim#plugins#runner#reg_runner('python', 
-        \ {
-        \ 'exe' : function('s:getexe'),
-        \ 'opt' : [],
-        \ })
-  call SpaceVim#mapping#gd#add('python', function('s:go_to_def'))
-  call SpaceVim#mapping#space#regesit_lang_mappings('python', function('s:language_specified_mappings'))
-  call SpaceVim#layers#edit#add_ft_head_tamplate('python',
-        \ ['#!/usr/bin/env python',
-        \ '# -*- coding: utf-8 -*-',
-        \ '']
-        \ )
-  if executable('ipython')
-    call SpaceVim#plugins#repl#reg('python', 'ipython --no-term-title')
-  elseif executable('python')
-    call SpaceVim#plugins#repl#reg('python', 'python')
-  endif
 endfunction
+
 
 function! s:language_specified_mappings() abort
   call SpaceVim#mapping#space#langSPC('nmap', ['l','r'],
@@ -122,11 +137,3 @@ func! s:getexe() abort
   endif
   return ['python']
 endf
-
-function! s:go_to_def() abort
-  if !SpaceVim#layers#lsp#check_filetype('python')
-    call jedi#goto()
-  else
-    call SpaceVim#lsp#go_to_def()
-  endif
-endfunction
