@@ -1,18 +1,16 @@
-"GetUserUserContext=============================================================================
-" typescript.vim --- lang#typescript layer for SpaceVim
-" Copyright (c) 2016-2017 Shidong Wang & Contributors
-" Author: Shidong Wang < wsdjeg at 163.com >
-" URL: https://spacevim.org
-" License: GPLv3
-"=============================================================================
+" --------------------------------------
+" lang#typescript layer
+" --------------------------------------
 
 
 function! SpaceVim#layers#lang#typescript#plugins() abort
-  let plugins = []
-  call add(plugins, ['leafgarland/typescript-vim'])
+  let plugins = [
+        \ ['leafgarland/typescript-vim'],
+        \ ]
   if !SpaceVim#layers#lsp#check_filetype('typescript')
     if has('nvim')
-      call add(plugins, ['mhartington/nvim-typescript', {'build': './install.sh'}])
+      " Warn: this may slow down your nvim or even your machine
+      "call add(plugins, ['mhartington/nvim-typescript', {'build': './install.sh'}])
     else
       call add(plugins, ['Quramy/tsuquyomi'])
     endif
@@ -22,6 +20,12 @@ endfunction
 
 
 function! SpaceVim#layers#lang#typescript#config() abort
+  augroup format
+    au!
+    " automatic comment insertion
+    autocmd FileType typescript setlocal formatoptions+=cro
+  augroup END
+
   if !has('nvim') && !SpaceVim#layers#lsp#check_filetype('typescript')
     augroup SpaceVim_lang_typescript
       autocmd!
@@ -97,7 +101,7 @@ function! s:go_to_def() abort
   if !SpaceVim#layers#lsp#check_filetype('typescript')
     if has('nvim')
       TSDef
-    else 
+    else
       call SpaceVim#lsp#go_to_def()
     endif
   else
