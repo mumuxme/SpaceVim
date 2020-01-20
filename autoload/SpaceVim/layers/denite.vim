@@ -1,6 +1,8 @@
+" --------------------------------------
 " denite layer
 "
 " NOTE: currently only version 2.1 of denite is supported.
+" --------------------------------------
 
 function! SpaceVim#layers#denite#plugins() abort
   let plugins = [
@@ -14,8 +16,10 @@ function! SpaceVim#layers#denite#plugins() abort
   call add(plugins, ['Shougo/unite-outline', {'merged' : 0}])
   call add(plugins, ['ozelentok/denite-gtags', {'merged' : 0}])
   call add(plugins, ['Shougo/neomru.vim', {'merged' : 0}])
+
   return plugins
 endfunction
+
 
 let s:filename = expand('<sfile>:~')
 let s:lnum = expand('<slnum>') + 2
@@ -147,6 +151,7 @@ function! SpaceVim#layers#denite#config() abort
   call s:defind_fuzzy_finder()
 endfunction
 
+
 let s:file = expand('<sfile>:~')
 let s:unite_lnum = expand('<slnum>') + 3
 function! s:defind_fuzzy_finder() abort
@@ -248,6 +253,8 @@ function! s:defind_fuzzy_finder() abort
         \ ]
 endfunction
 
+" --------------------------------------
+
 function! s:warp_denite(cmd) abort
   exe a:cmd
   doautocmd WinEnter
@@ -267,4 +274,3 @@ else
     return function(substitute(a:fstr, 's:', s:_s, 'g'))
   endfunction
 endif
-" vim:set et sw=2 cc=80:

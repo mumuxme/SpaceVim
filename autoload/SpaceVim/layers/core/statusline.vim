@@ -301,7 +301,7 @@ endfunction
 function! SpaceVim#layers#core#statusline#_current_tag() abort
   let tag = ''
   try
-    let tag =tagbar#currenttag("%s ", "") 
+    let tag =tagbar#currenttag("%s ", "")
   catch
   endtry
   return tag
@@ -367,9 +367,9 @@ function! SpaceVim#layers#core#statusline#get(...) abort
   elseif &filetype ==# 'denite'
     return '%#SpaceVim_statusline_a_bold# %{SpaceVim#layers#core#statusline#denite_mode()} '
           \ . '%#SpaceVim_statusline_a_bold_SpaceVim_statusline_b#' . s:lsep . ' '
-          \ . '%#SpaceVim_statusline_b#%{denite#get_status_sources()} %#SpaceVim_statusline_b_SpaceVim_statusline_z#' . s:lsep . ' '
+          \ . '%#SpaceVim_statusline_b#%{denite#get_status("sources")} %#SpaceVim_statusline_b_SpaceVim_statusline_z#' . s:lsep . ' '
           \ . '%#SpaceVim_statusline_z#%=%#SpaceVim_statusline_c_SpaceVim_statusline_z#' . s:rsep
-          \ . '%#SpaceVim_statusline_c# %{denite#get_status_path() . denite#get_status_linenr()}'
+          \ . '%#SpaceVim_statusline_c# %{denite#get_status("path") . denite#get_status("linenr")}'
   elseif &filetype ==# 'unite'
     return '%#SpaceVim_statusline_a_bold#%{SpaceVim#layers#core#statusline#unite_mode()} Unite '
           \ . '%#SpaceVim_statusline_a_bold_SpaceVim_statusline_b#' . s:lsep . ' %{get(unite#get_context(), "buffer_name", "")} '
@@ -665,9 +665,10 @@ function! SpaceVim#layers#core#statusline#mode_text(mode)
   return ' '
 endfunction
 
-function! SpaceVim#layers#core#statusline#denite_mode()
+
+function! SpaceVim#layers#core#statusline#denite_mode() abort
   let t = s:colors_template
-  let dmode = split(denite#get_status_mode())[1]
+  let dmode = 'Denite'
   if get(w:, 'spacevim_statusline_mode', '') != dmode
     if dmode == 'NORMAL'
       exe 'hi! SpaceVim_statusline_a_bold cterm=bold gui=bold ctermbg=' . t[0][2] . ' ctermfg=' . t[0][3] . ' guibg=' . t[0][1] . ' guifg=' . t[0][0]

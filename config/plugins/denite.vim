@@ -102,48 +102,81 @@ endif
 " enable unite menu compatibility
 call denite#custom#var('menu', 'unite_source_menu_compatibility', 1)
 
-" KEY MAPPINGS
-let s:insert_mode_mappings = [
-      \ ['jk', '<denite:enter_mode:normal>', 'noremap'],
-      \ ['<Tab>', '<denite:move_to_next_line>', 'noremap'],
-      \ ['<C-j>', '<denite:move_to_next_line>', 'noremap'],
-      \ ['<S-tab>', '<denite:move_to_previous_line>', 'noremap'],
-      \ ['<C-k>', '<denite:move_to_previous_line>', 'noremap'],
-      \ ['<C-t>', '<denite:do_action:tabopen>', 'noremap'],
-      \ ['<C-v>', '<denite:do_action:vsplit>', 'noremap'],
-      \ ['<C-s>', '<denite:do_action:split>', 'noremap'],
-      \ ['<Esc>', '<denite:enter_mode:normal>', 'noremap'],
-      \ ['<C-N>', '<denite:assign_next_matched_text>', 'noremap'],
-      \ ['<C-P>', '<denite:assign_previous_matched_text>', 'noremap'],
-      \ ['<Up>', '<denite:assign_previous_text>', 'noremap'],
-      \ ['<Down>', '<denite:assign_next_text>', 'noremap'],
-      \ ['<C-Y>', '<denite:redraw>', 'noremap'],
-      \ ]
+" this is for old version of denite
+function! s:set_keymappings() abort
+  let insert_mode_mappings = [
+        \ ['jk', '<denite:enter_mode:normal>', 'noremap'],
+        \ ['<Tab>', '<denite:move_to_next_line>', 'noremap'],
+        \ ['<C-j>', '<denite:move_to_next_line>', 'noremap'],
+        \ ['<S-tab>', '<denite:move_to_previous_line>', 'noremap'],
+        \ ['<C-k>', '<denite:move_to_previous_line>', 'noremap'],
+        \ ['<C-t>', '<denite:do_action:tabopen>', 'noremap'],
+        \ ['<C-v>', '<denite:do_action:vsplit>', 'noremap'],
+        \ ['<C-s>', '<denite:do_action:split>', 'noremap'],
+        \ ['<Esc>', '<denite:enter_mode:normal>', 'noremap'],
+        \ ['<C-N>', '<denite:assign_next_matched_text>', 'noremap'],
+        \ ['<C-P>', '<denite:assign_previous_matched_text>', 'noremap'],
+        \ ['<Up>', '<denite:assign_previous_text>', 'noremap'],
+        \ ['<Down>', '<denite:assign_next_text>', 'noremap'],
+        \ ['<C-Y>', '<denite:redraw>', 'noremap'],
+        \ ]
+  let normal_mode_mappings = [
+        \ ["'", '<denite:toggle_select_down>', 'noremap'],
+        \ ['<Esc>', '<denite:enter_mode:normal>', 'noremap'],
+        \ ['<C-n>', '<denite:jump_to_next_source>', 'noremap'],
+        \ ['<C-p>', '<denite:jump_to_previous_source>', 'noremap'],
+        \ ['<Tab>', '<denite:move_to_next_line>', 'noremap'],
+        \ ['<C-j>', '<denite:move_to_next_line>', 'noremap'],
+        \ ['<S-tab>', '<denite:move_to_previous_line>', 'noremap'],
+        \ ['<C-k>', '<denite:move_to_previous_line>', 'noremap'],
+        \ ['gg', '<denite:move_to_first_line>', 'noremap'],
+        \ ['<C-t>', '<denite:do_action:tabopen>', 'noremap'],
+        \ ['<C-v>', '<denite:do_action:vsplit>', 'noremap'],
+        \ ['<C-s>', '<denite:do_action:split>', 'noremap'],
+        \ ['q', '<denite:quit>', 'noremap'],
+        \ ['r', '<denite:redraw>', 'noremap'],
+        \ ]
 
-let s:normal_mode_mappings = [
-      \ ["'", '<denite:toggle_select_down>', 'noremap'],
-      \ ['<C-n>', '<denite:jump_to_next_source>', 'noremap'],
-      \ ['<C-p>', '<denite:jump_to_previous_source>', 'noremap'],
-      \ ['<Tab>', '<denite:move_to_next_line>', 'noremap'],
-      \ ['<C-j>', '<denite:move_to_next_line>', 'noremap'],
-      \ ['<S-tab>', '<denite:move_to_previous_line>', 'noremap'],
-      \ ['<C-k>', '<denite:move_to_previous_line>', 'noremap'],
-      \ ['gg', '<denite:move_to_first_line>', 'noremap'],
-      \ ['<C-t>', '<denite:do_action:tabopen>', 'noremap'],
-      \ ['<C-v>', '<denite:do_action:vsplit>', 'noremap'],
-      \ ['<C-s>', '<denite:do_action:split>', 'noremap'],
-      \ ['q', '<denite:quit>', 'noremap'],
-      \ ['r', '<denite:redraw>', 'noremap'],
-      \ ]
+  for x in insert_mode_mappings
+    call denite#custom#map('insert', x[0], x[1], x[2])
+  endfor
 
-for s:m in s:insert_mode_mappings
-  call denite#custom#map('insert', s:m[0], s:m[1], s:m[2])
-endfor
-for s:m in s:normal_mode_mappings
-  call denite#custom#map('normal', s:m[0], s:m[1], s:m[2])
-endfor
+  for m in normal_mode_mappings
+    call denite#custom#map('normal', m[0], m[1], m[2])
+  endfor
+endfunction
 
-unlet s:m s:insert_mode_mappings s:normal_mode_mappings
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> i
+        \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> '
+        \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> q
+        \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <C-t>
+        \ denite#do_map('do_action', 'tabopen')
+  nnoremap <silent><buffer><expr> <C-v>
+        \ denite#do_map('do_action', 'vsplit')
+  nnoremap <silent><buffer><expr> <C-s>
+        \ denite#do_map('do_action', 'split')
+  nnoremap <silent><buffer><expr> <CR>
+        \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> p
+        \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><Tab> j
+  nnoremap <silent><buffer><S-Tab> k
+endfunction
+
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
+endfunction
 
 
-" vim:set et sw=2 cc=80:
+" --------------------------------------
+
+" this is for old version of denite
+call s:set_keymappings()
+
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+autocmd FileType denite-filter call s:denite_filter_my_settings()
