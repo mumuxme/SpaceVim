@@ -49,9 +49,11 @@ function! SpaceVim#layers#autocomplete#plugins() abort
   elseif g:spacevim_autocomplete_method ==# 'coc'
       call add(plugins, ['neoclide/coc.nvim',  {'merged': 0}])
   elseif g:spacevim_autocomplete_method ==# 'deoplete'
+    " FIXME: 'rev' doesn't work
     call add(plugins, ['Shougo/deoplete.nvim', {
           \ 'on_event' : 'InsertEnter',
           \ 'loadconf' : 1,
+          \ 'rev': '0d05d8697304a8ac861aed6e20826049b5adc2a8',
           \ }])
     if !has('nvim')
       call add(plugins, ['SpaceVim/nvim-yarp',  {'merged': 0}])

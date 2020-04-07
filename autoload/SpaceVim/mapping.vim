@@ -118,7 +118,7 @@ function! SpaceVim#mapping#clearBuffers() abort
     let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val)')
     for i in blisted
       if i != bufnr('%')
-        try 
+        try
           exe 'bw ' . i
         catch
         endtry

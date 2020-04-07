@@ -1,6 +1,3 @@
-""
-" Main file of SpaceVim
-
 " Enable nocompatible
 if has('vim_starting')
   " set default encoding to utf-8
@@ -23,6 +20,8 @@ let g:_spacevim_root_dir = fnamemodify(expand('<sfile>'),
       \ ':p:h:gs?\\?'.((has('win16') || has('win32')
       \ || has('win64'))?'\':'/') . '?')
 lockvar g:_spacevim_root_dir
+
+" --------------------------------------
 
 try
   call SpaceVim#begin()

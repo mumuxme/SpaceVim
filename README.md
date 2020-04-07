@@ -19,6 +19,11 @@ TODO
 
 All layers are disabled by default. You should enable manually.
 
+## TODO
+
+- dein.vim version hash: 0d05d8697304a8ac861aed6e20826049b5adc2a8
+- LanguageClient-neovim tag: 0.1.147
+
 
 ---
 

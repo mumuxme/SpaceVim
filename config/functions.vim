@@ -44,7 +44,7 @@ function! ToggleBG()
     endif
 endfunction
 function! ToggleConceal()
-    if &conceallevel == 0 
+    if &conceallevel == 0
         setlocal conceallevel=2
     else
         setlocal conceallevel=0
