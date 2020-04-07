@@ -108,8 +108,23 @@ function! SpaceVim#layers#autocomplete#plugins() abort
   return plugins
 endfunction
 
+" ------------------------------------------------------------------------------
+
+function! s:deoplete_config() abort
+  " disable the auto completion for certain filetypes
+  augroup disable_deoplete_autocomplete
+    au!
+    autocmd FileType denite-filter
+          \ call deoplete#custom#buffer_option('auto_complete', v:false)
+  augroup END
+endfunction
 
 function! SpaceVim#layers#autocomplete#config() abort
+
+  if g:spacevim_autocomplete_method ==# 'deoplete'
+    call s:deoplete_config()
+  endif
+
   if g:spacevim_autocomplete_parentheses && g:spacevim_autocomplete_parameter
     imap <expr>(
           \ pumvisible() ?
