@@ -17,7 +17,7 @@ function! SpaceVim#layers#lang#python#plugins() abort
 
   if !s:is_enable_lsp
     if has('nvim')
-      call add(plugins, ['zchee/deoplete-jedi', { 'on_ft' : 'python'}])
+      call add(plugins, ['deoplete-plugins/deoplete-jedi', { 'on_ft' : 'python'}])
       " in neovim, we can use deoplete-jedi together with jedi-vim,
       " but we need to disable the completions of jedi-vim.
       let g:jedi#completions_enabled = 0
